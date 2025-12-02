@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feed de Pôsteres</title>
+    <!-- Nova fonte: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Estilos base */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* Fundo rico e fonte moderna */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); /* Gradiente azul profundo */
             min-height: 100vh;
-            padding: 20px;
+            padding: 30px 15px; /* Padding responsivo */
+            color: #333;
         }
 
         .container {
@@ -23,24 +28,38 @@
             margin: 0 auto;
         }
 
+        /* Efeito Glassmorphism para o Header */
         .header {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Sombra mais elegante */
+            backdrop-filter: blur(4px); 
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             margin-bottom: 30px;
         }
 
         h1 {
-            color: #667eea;
+            color: #1e3c72; /* Cor mais escura para contraste */
+            font-weight: 700;
+            letter-spacing: -0.5px;
             margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        h3 {
+            color: #2a5298;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
 
         .server-manager {
-            background: #f8f9fa;
+            background: rgba(240, 240, 240, 0.7);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .server-list {
@@ -58,55 +77,64 @@
             align-items: center;
             gap: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s;
         }
-
+        
+        /* Cor de destaque para o servidor ativo */
         .server-item.active {
-            background: #667eea;
+            background: #2a5298; 
             color: white;
+            box-shadow: 0 3px 6px rgba(42, 82, 152, 0.4);
         }
 
         .remove-btn {
-            background: #ff4757;
+            background: #ff6b6b; /* Soft red for delete */
             color: white;
             border: none;
             padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 12px;
+            transition: background 0.3s;
         }
 
         .remove-btn:hover {
-            background: #ee5a6f;
+            background: #e74c3c;
         }
 
         .input-group {
             display: flex;
             gap: 10px;
             margin-bottom: 15px;
+            flex-wrap: wrap; /* Responsividade */
         }
 
         input[type="text"], textarea {
             flex: 1;
             padding: 12px;
-            border: 2px solid #e1e8ed;
+            border: 1px solid #c8d3e2; /* Borda suave */
             border-radius: 8px;
             font-size: 14px;
-            transition: border 0.3s;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
         }
 
+        /* Anel de foco moderno */
         input[type="text"]:focus, textarea:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #00bcd4; /* Destaque ciano */
+            box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.2);
         }
 
         textarea {
-            min-height: 100px;
+            min-height: 120px;
             resize: vertical;
-            font-family: inherit;
         }
 
+        /* Botões estilosos com sombra */
         button {
-            background: #667eea;
+            background: #00bcd4; /* Ciano vibrante */
             color: white;
             border: none;
             padding: 12px 25px;
@@ -114,50 +142,63 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 188, 212, 0.4);
+            flex-shrink: 0;
         }
 
         button:hover {
-            background: #5568d3;
+            background: #00a0b0; /* Ciano mais escuro ao passar o mouse */
+            box-shadow: 0 6px 15px rgba(0, 188, 212, 0.6);
+            transform: translateY(-2px);
         }
 
         button:disabled {
             background: #ccc;
             cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
         }
-
+        
+        /* Grid responsivo para o Feed */
         .feed {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
         }
 
+        /* Efeito Glassmorphism para os Pôsteres */
         .poster {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 25px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .poster:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transform: translateY(-7px); /* Elevação maior ao passar o mouse */
+            box-shadow: 0 15px 40px 0 rgba(31, 38, 135, 0.5); 
         }
 
         .poster-content {
             white-space: pre-wrap;
             word-wrap: break-word;
-            color: #2c3e50;
-            line-height: 1.6;
+            color: #333;
+            line-height: 1.7;
+            font-weight: 400;
         }
 
         .poster-meta {
-            margin-top: 15px;
+            margin-top: 20px;
             padding-top: 15px;
             border-top: 1px solid #e1e8ed;
-            font-size: 12px;
-            color: #95a5a6;
+            font-size: 13px;
+            color: #7f8c8d;
+            font-weight: 300;
         }
 
         .loading {
@@ -165,14 +206,16 @@
             padding: 40px;
             color: white;
             font-size: 18px;
+            font-weight: 600;
         }
 
         .error {
-            background: #ff4757;
+            background: #e74c3c;
             color: white;
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
+            font-weight: 600;
         }
 
         .success {
@@ -181,6 +224,23 @@
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        /* Ajustes de responsividade para o input group */
+        @media (max-width: 600px) {
+            .input-group {
+                flex-direction: column;
+            }
+            input[type="text"], textarea, button {
+                width: 100%;
+            }
+            .header {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
@@ -215,9 +275,15 @@
     </div>
 
     <script>
+        // Variáveis globais para armazenar a lista de servidores e o servidor ativo
         let servers = JSON.parse(localStorage.getItem('servers') || '[]');
         let activeServer = localStorage.getItem('activeServer') || '';
 
+        /**
+         * Exibe uma mensagem de feedback (sucesso ou erro) ao usuário.
+         * @param {string} msg - A mensagem a ser exibida.
+         * @param {string} type - O tipo de mensagem ('success' ou 'error').
+         */
         function showMessage(msg, type = 'error') {
             const el = document.getElementById('message');
             el.className = type;
@@ -226,10 +292,13 @@
             setTimeout(() => el.style.display = 'none', 3000);
         }
 
+        /**
+         * Renderiza a lista de servidores no gerenciador.
+         */
         function renderServerList() {
             const list = document.getElementById('serverList');
             if (servers.length === 0) {
-                list.innerHTML = '<p style="color: #999;">Nenhum servidor adicionado</p>';
+                list.innerHTML = '<p style="color: #555;">Nenhum servidor adicionado</p>';
                 return;
             }
             
@@ -241,6 +310,9 @@
             `).join('');
         }
 
+        /**
+         * Adiciona um novo servidor à lista.
+         */
         function addServer() {
             const input = document.getElementById('serverUrl');
             const url = input.value.trim();
@@ -268,6 +340,10 @@
             showMessage('Servidor adicionado com sucesso!', 'success');
         }
 
+        /**
+         * Remove um servidor da lista.
+         * @param {string} url - A URL do servidor a ser removido.
+         */
         function removeServer(url) {
             servers = servers.filter(s => s !== url);
             localStorage.setItem('servers', JSON.stringify(servers));
@@ -281,13 +357,21 @@
             showMessage('Servidor removido', 'success');
         }
 
+        /**
+         * Define o servidor ativo e recarrega os pôsteres.
+         * @param {string} url - A URL do servidor a ser ativado.
+         */
         function setActiveServer(url) {
             activeServer = url;
             localStorage.setItem('activeServer', url);
             renderServerList();
             loadPosters();
+            showMessage(`Servidor ativo: ${url}`, 'success');
         }
 
+        /**
+         * Cria e publica um novo pôster.
+         */
         async function createPoster() {
             if (!activeServer) {
                 showMessage('Adicione e selecione um servidor primeiro');
@@ -305,6 +389,7 @@
             btn.textContent = 'Publicando...';
 
             try {
+                // Tenta publicar o pôster no servidor ativo
                 const response = await fetch(activeServer, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -321,23 +406,29 @@
                     showMessage(data.error || 'Erro ao criar pôster');
                 }
             } catch (error) {
-                showMessage('Erro de conexão com o servidor');
+                showMessage('Erro de conexão com o servidor. Verifique a URL.');
             } finally {
                 btn.disabled = false;
                 btn.textContent = 'Publicar Pôster';
             }
         }
 
+        /**
+         * Carrega os pôsteres do servidor ativo e atualiza o feed.
+         */
         async function loadPosters() {
+            const feedElement = document.getElementById('feed');
+            
             if (!activeServer) {
-                document.getElementById('feed').innerHTML = '<p style="text-align: center; color: white;">Adicione um servidor para ver os pôsteres</p>';
+                feedElement.innerHTML = '<p style="text-align: center; color: white;">Adicione e ative um servidor para ver os pôsteres</p>';
                 return;
             }
 
             document.getElementById('loading').style.display = 'block';
-            document.getElementById('feed').innerHTML = '';
+            feedElement.innerHTML = '';
 
             try {
+                // Tenta buscar os pôsteres
                 const response = await fetch(activeServer + '?action=list');
                 const data = await response.json();
 
@@ -347,13 +438,17 @@
                     showMessage(data.error || 'Erro ao carregar pôsteres');
                 }
             } catch (error) {
-                showMessage('Erro de conexão com o servidor');
-                document.getElementById('feed').innerHTML = '<p style="text-align: center; color: white;">Erro ao conectar com o servidor</p>';
+                showMessage('Erro de conexão com o servidor. Verifique se o servidor está online.', 'error');
+                feedElement.innerHTML = '<p style="text-align: center; color: white;">Erro ao conectar com o servidor. Tente novamente.</p>';
             } finally {
                 document.getElementById('loading').style.display = 'none';
             }
         }
 
+        /**
+         * Exibe os pôsteres no feed.
+         * @param {Array<Object>} posters - Lista de objetos de pôster.
+         */
         function displayPosters(posters) {
             const feed = document.getElementById('feed');
             
@@ -362,6 +457,7 @@
                 return;
             }
 
+            // Mapeia e renderiza os pôsteres
             feed.innerHTML = posters.map(poster => `
                 <div class="poster">
                     <div class="poster-content">${escapeHtml(poster.content)}</div>
@@ -372,13 +468,18 @@
             `).join('');
         }
 
+        /**
+         * Escapa o conteúdo HTML para prevenir XSS.
+         * @param {string} text - O texto a ser escapado.
+         * @returns {string} O texto com caracteres HTML escapados.
+         */
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
-        // Inicialização
+        // Inicialização: Renderiza a lista de servidores e carrega os pôsteres se houver um ativo.
         renderServerList();
         if (activeServer) {
             loadPosters();
